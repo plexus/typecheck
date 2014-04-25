@@ -10,7 +10,7 @@ task :default => :mutant
 
 task :mutant do
   pattern = ENV.fetch('PATTERN', 'Typecheck*')
-  result  = Mutant::CLI.run(%w[-Ilib -rtypecheck --use rspec --score 100] + [pattern])
+  result  = Mutant::CLI.run(%w[-Ilib -rtypecheck --use rspec --score 81] + [pattern])
   fail unless result == Mutant::CLI::EXIT_SUCCESS
 end
 
