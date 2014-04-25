@@ -12,8 +12,18 @@ Type checking for Ruby methods.
 
 Validate the arguments and return value of a function, based on a type signature. Supports duck-type checking.
 
+Example below is for Ruby 2.1, for 2.0 and earlier pass the function name explicitly :
+
 ```ruby
-require 'timecheck'
+def foo(..)
+end
+typecheck '...', :foo
+```
+
+Features by example:
+
+```ruby
+require 'typecheck'
 
 class Checked
   extend Typecheck
@@ -28,6 +38,7 @@ class Checked
     str.length
   end
 
+  # Duck typing FTW!
   typecheck '#to_str -> Symbol',
   def duck(str)
     str.to_str.upcase.intern
@@ -54,3 +65,7 @@ class Checked
   end
 end
 ```
+
+## LICENSE
+
+Copyright (c) 2014 Arne Brasseur, MIT License. See LICENSE file.
