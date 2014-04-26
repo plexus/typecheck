@@ -57,9 +57,9 @@ module Typecheck
       pred_and subtype.split(';').map(&:strip).map { |type|
         case type
         when /#(.*)/
-          method("#{check_or_raise}_respond_to").to_proc.curry.($1)
+          method("#{check_or_raise}_respond_to").to_proc.curry.(type[1..-1])
         when /\[(.*)\]/
-          method("#{check_or_raise}_array").to_proc.curry.(eval($1))
+          method("#{check_or_raise}_array").to_proc.curry.(eval(type[1..-2]))
         else
           method("#{check_or_raise}_class").to_proc.curry.(eval(type))
         end
@@ -67,11 +67,12 @@ module Typecheck
     end
 
     def check_respond_to(method, value)
-      value.respond_to? method
+      value.respond_to?(method)
     end
 
     def raise_respond_to(method, value)
-      raise "Expected #{value.inspect}, to respond_to #{method}" unless check_respond_to(method, value)
+      raise TypeError, "Expected #{value.inspect}, to respond_to #{method}" unless check_respond_to(method, value)
+      true
     end
 
     def check_array(type, array)
@@ -79,7 +80,8 @@ module Typecheck
     end
 
     def raise_array(type, array)
-      raise "Bad type: #{array.inspect} to only contain #{klz}" unless check_array(type, array)
+      raise TypeError, "Bad type: expected #{array} to only contain #{type}" unless check_array(type, array)
+      true
     end
 
     def check_class(klz, value)
@@ -87,7 +89,10 @@ module Typecheck
     end
 
     def raise_class(klz, value)
-      raise "Bad type: #{value.inspect}, expected #{klz}" unless check_class(klz, value)
+      raise TypeError, "Bad type: #{value.inspect}, expected #{klz}" unless check_class(klz, value)
+      true
     end
   end
+
+  TypeError = Class.new(StandardError)
 end
