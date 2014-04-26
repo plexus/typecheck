@@ -1,5 +1,5 @@
 module Typecheck
-  VERSION = '0.1.0'
+  VERSION = '0.1.1'
 
   def typecheck(signature, method)
     alias_method "#{method}_unchecked", method
