@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.test_files       = `git ls-files -- spec`.split($/)
   gem.extra_rdoc_files = %w[README.md LICENSE]
 
-  gem.add_development_dependency 'rake'         , '~> 10.2'
-  gem.add_development_dependency 'rspec'        , '~> 2.14'
-  gem.add_development_dependency 'mutant-rspec' , '~> 0.5.10'
+  gem.add_development_dependency 'rake'         , '~> 10.4'
+  gem.add_development_dependency 'rspec'        , '~> 3.1'
+  gem.add_development_dependency 'mutant-rspec' , '~> 0.7.1'
 end
