@@ -12,7 +12,7 @@ module Typecheck
       check_args, check_out = parse_sig(signature)
       ->(*args) do
         check_args.(*args)
-        send(unchecked_method, *args).tap do |result|
+        __send__(unchecked_method, *args).tap do |result|
           check_out.(result)
         end
       end
