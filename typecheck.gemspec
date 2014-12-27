@@ -18,6 +18,6 @@ Gem::Specification.new do |gem|
   gem.extra_rdoc_files = %w[README.md LICENSE]
 
   gem.add_development_dependency 'rake'         , '~> 10.4'
-  gem.add_development_dependency 'rspec'        , '~> 3.1'
-  gem.add_development_dependency 'mutant-rspec' , '~> 0.7.1'
+  gem.add_development_dependency 'rspec'        , '~> 3'
+  gem.add_development_dependency 'mutant-rspec' , '~> 0'
 end

@@ -66,6 +66,17 @@ describe Typecheck do
         num
       end
       typecheck 'Fixnum,  String, Symbol -> Numeric', :optional
+
+      def public_interface(x)
+        private_helper(x)
+      end
+
+      private
+
+      def private_helper(x)
+        x + x
+      end
+      typecheck 'Numeric -> Numeric', :private_helper
     end
   end
 
@@ -106,8 +117,11 @@ describe Typecheck do
   include_examples 'valid',   :optional,   [1, 'x', :foo], 1
   include_examples 'valid',   :optional,   [1, 'x'], 1
   include_examples 'valid',   :optional,   [1], 1
-  include_examples 'invalid', :optional,   [1, 'x', 'y'], 1, 'Bad type: "y", expected Symbol'
+  include_examples 'invalid', :optional,   [1, 'x', 'y'], 'Bad type: "y", expected Symbol'
   include_examples 'invalid', :optional,   [],  /wrong number of arguments/, ArgumentError
+
+  include_examples 'valid',   :public_interface, [1], 2
+  include_examples 'invalid', :public_interface, ['x'], 'Bad type: "x", expected Numeric'
 
   it 'should make the original method available' do
     expect(subject.double_me_unchecked('foo')).to eq 'foofoo'

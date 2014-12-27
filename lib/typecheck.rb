@@ -1,5 +1,5 @@
 module Typecheck
-  VERSION = '0.1.1'
+  VERSION = '0.1.2'
 
   def typecheck(signature, method)
     alias_method "#{method}_unchecked", method
@@ -20,7 +20,7 @@ module Typecheck
 
     def parse_sig(sig)
       in_t, out_t = sig.split('->').map(&:strip)
-      in_ts = in_t.split(',').map(&:strip)
+      in_ts = in_t.split(',')
 
       in_checks = in_ts.map(&method(:parse_type_list))
       out_check = parse_type_list(out_t)
@@ -42,7 +42,7 @@ module Typecheck
     end
 
     def parse_type_list(choices)
-      types = choices.split('|').map(&:strip)
+      types = choices.split('|')
       pred_or [
         pred_or(types.map {|choice|
             parse_type(choice, :check)
